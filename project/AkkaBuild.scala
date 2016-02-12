@@ -181,7 +181,7 @@ object AkkaBuild extends Build {
   lazy val persistence = Project(
     id = "akka-persistence",
     base = file("akka-persistence"),
-    dependencies = Seq(actor, remote % "test->test", testkit % "test->test", protobuf)
+    dependencies = Seq(actor, testkit % "test->test", protobuf)
   )
 
   lazy val persistenceQuery = Project(
@@ -213,13 +213,13 @@ object AkkaBuild extends Build {
   )
 
   lazy val httpTestkit = Project(
-    id = "akka-http-testkit-experimental",
+    id = "akka-http-testkit",
     base = file("akka-http-testkit"),
     dependencies = Seq(http, streamTestkit)
   )
 
   lazy val httpTests = Project(
-    id = "akka-http-tests-experimental",
+    id = "akka-http-tests",
     base = file("akka-http-tests"),
     dependencies = Seq(httpTestkit % "test", httpSprayJson, httpXml, httpJackson)
   )
@@ -247,14 +247,14 @@ object AkkaBuild extends Build {
 
   def httpMarshallersScalaSubproject(name: String) =
     Project(
-      id = s"akka-http-$name-experimental",
+      id = s"akka-http-$name",
       base = file(s"akka-http-marshallers-scala/akka-http-$name"),
       dependencies = Seq(http)
     )
 
   def httpMarshallersJavaSubproject(name: String) =
     Project(
-      id = s"akka-http-$name-experimental",
+      id = s"akka-http-$name",
       base = file(s"akka-http-marshallers-java/akka-http-$name"),
       dependencies = Seq(http)
     )
@@ -272,8 +272,8 @@ object AkkaBuild extends Build {
 
   lazy val streamTestkit = Project(
     id = "akka-stream-testkit",
-    base = file("akka-stream-testkit"), // TODO that persistence dependency
-    dependencies = Seq(stream, persistence % "compile;provided->provided;test->test", testkit % "compile;test->test")
+    base = file("akka-stream-testkit"),
+    dependencies = Seq(stream, testkit % "compile;test->test")
   )
 
   lazy val streamTests = Project(
